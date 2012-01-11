@@ -3,7 +3,7 @@
 require_once('../../config.php');
 require_once($CFG->libdir . '/grouplib.php');
 require_once('lib.php');
-require_once($CFG->libdir . '/quick_template.php');
+require_once($CFG->libdir . '/quick_template/lib.php');
 
 /**
  * Author: Philip Cali
