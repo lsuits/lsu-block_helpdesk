@@ -16,7 +16,7 @@ if($mode == 'user') {
                        'firstname' => get_string('firstname'),
                        'lastname' => get_string('lastname'));
     $table = 'user';
-    $fields = 'id, concat(firstname, " ", lastname) as fullname';
+    $fields = 'id, firstname, lastname';
 } else {
     $header = get_string('search_courses', 'block_helpdesk');
     $criterion = array('fullname' => get_string('fullname'));
@@ -57,7 +57,16 @@ $template_data = array(
     'follow_link' => $follow_link,
 );
 
-quick_template::render("index.tpl", $template_data, 'block_helpdesk');
+$registers = array(
+    'function' => array(
+        'fullname' => function($params, &$smarty) {
+            extract($params);
+            return !empty($obj->fullname) ? $obj->fullname : fullname($obj);
+        }
+    )
+);
+
+quick_template::render("index.tpl", $template_data, 'block_helpdesk', $registers);
 
 echo $OUTPUT->footer();
 

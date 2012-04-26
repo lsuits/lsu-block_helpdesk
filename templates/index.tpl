@@ -29,7 +29,8 @@
                       <td class="cell c1">
                         <a class="{if isset($result->visible)}
                                     {if !$result->visible} dimmed {/if}
-                                  {/if}" href="{$follow_link}?id={$id}">{$result->fullname}</a>
+                                  {/if}" href="{$follow_link}?id={$id}">
+                                    {fullname obj=$result}
                       </td>
                 </tr>
              {/foreach}
