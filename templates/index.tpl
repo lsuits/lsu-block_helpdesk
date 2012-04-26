@@ -31,6 +31,7 @@
                                     {if !$result->visible} dimmed {/if}
                                   {/if}" href="{$follow_link}?id={$id}">
                                     {fullname obj=$result}
+                        </a>
                       </td>
                 </tr>
              {/foreach}
