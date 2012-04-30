@@ -4,7 +4,7 @@ function hdesk_get_results_sql($data, $criterion) {
     global $DB;
 
     $keys = array_keys($criterion);
-    $use_only = array_filter($keys, function($value) use($data) { 
+    $use_only = array_filter($keys, function($value) use($data) {
         return !empty($data->{$value . '_terms'});
     });
 

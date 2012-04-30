@@ -31,14 +31,16 @@ $PAGE->set_context($sitecontext);
 $PAGE->navbar->add($search);
 $PAGE->set_title($blockname . ': '. $search);
 $PAGE->set_heading($blockname);
-$PAGE->set_url('/blocks/helpdesk?id='.$id);
+$PAGE->set_url('/blocks/helpdesk/participants.php', array(
+    'id' => $id, 'group' => $group, 'roleid' => $roleid
+));
 
 echo $OUTPUT->header();
 
+$heading = $course->fullname;
+
 if ($group > 0) {
-    $heading = $DB->get_field('groups', 'name', array('id' => $group));
-} else {
-    $heading = $course->fullname;
+    $heading .= ' ' . $DB->get_field('groups', 'name', array('id' => $group));
 }
 
 echo $OUTPUT->heading($heading);
@@ -48,7 +50,7 @@ $course->groupmode=2;
 groups_print_course_menu($course, "participants.php?id=$id&amp;roleid=$roleid");
 
 // Gett all the roles
-$rolenamesurl = new moodle_url("$CFG->wwwroot/blocks/helpdesk/participants.php?id=$id&sifirst=&silast=");
+$rolenamesurl = new moodle_url('/blocks/helpdesk/participants.php', array('id' => $id));
 $roles = get_roles_used_in_context($context, true);
 $rolenames = array(0 => get_string('allparticipants'));
 foreach($roles as $role) {
