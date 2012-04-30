@@ -4,6 +4,7 @@
     {$select}
   </div>
 </div>
+{$heading}
 <div class="box">
   <table id="participants" class="box flexible generaltable generalbox">
       <tr>
