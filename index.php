@@ -76,7 +76,7 @@ $registers = array(
     )
 );
 
-quick_template::render("index.tpl", $template_data, 'block_helpdesk', $registers);
+quick_template::render("helpdesk_index.tpl", $template_data, 'block_helpdesk', $registers);
 
 echo $OUTPUT->footer();
 

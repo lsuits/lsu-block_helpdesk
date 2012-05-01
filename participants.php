@@ -92,7 +92,7 @@ $template_registers = array(
     )
 );
 
-quick_template::render('participants.tpl', $template_data, 'block_helpdesk', $template_registers);
+quick_template::render('helpdesk_participants.tpl', $template_data, 'block_helpdesk', $template_registers);
 
 echo $OUTPUT->footer();
 
