@@ -10,16 +10,25 @@ $mode = optional_param('mode', 'course', PARAM_ALPHA);
 
 $blockname = get_string('pluginname', 'block_helpdesk');
 
-if($mode == 'user') {
+$data = data_submitted();
+
+if ($mode == 'user') {
     $header = get_string('search_users', 'block_helpdesk');
     $criterion = array('username' => get_string('username'),
                        'firstname' => get_string('firstname'),
                        'lastname' => get_string('lastname'));
     $fields = 'id, firstname, lastname';
+
+    $sql = $data ? hdesk_get_results_sql($data, $criterion) : null;
+    $results = $sql ? $DB->get_records_select($mode, $sql, null, '', $fields) : array();
+    $follow_link = new moodle_url('/user/view.php');
 } else {
     $header = get_string('search_courses', 'block_helpdesk');
     $criterion = array('fullname' => get_string('fullname'));
-    $fields = 'id, fullname, visible';
+    $results = $data ?
+        get_courses_search(explode(' ', $data->fullname_terms), 'fullname ASC', 0, 50, $count) :
+        array();
+    $follow_link = 'participants.php';
 }
 
 $context = get_context_instance(CONTEXT_SYSTEM);
@@ -39,13 +48,6 @@ $availability = array(
     'starts' => get_string('starts', 'block_helpdesk'),
     'ends' => get_string('ends', 'block_helpdesk')
 );
-
-$data = data_submitted();
-$sql = hdesk_get_results_sql($data, $criterion);
-
-// Pull data from DB on POST
-$results = ($sql) ? $DB->get_records_select($mode, $sql, null, '', $fields) : array();
-$follow_link = $mode == 'user' ? new moodle_url('/user/view.php') : 'participants.php';
 
 $template_data = array(
     'availability' => $availability,
