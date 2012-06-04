@@ -1,3 +1,9 @@
+# v1.1.2
+
+- Use Moodle Course search [#3][3]
+
+[3]: https://github.com/lsuits/helpdesk/issues/3
+
 # v1.1.1
 
 - Namespace smarty template [c6c172][c6c172]
