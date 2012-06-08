@@ -1,8 +1,10 @@
 # v1.1.2
 
 - Use Moodle Course search [#3][3]
+- User search includes idnumber [#4][4]
 
 [3]: https://github.com/lsuits/helpdesk/issues/3
+[4]: https://github.com/lsuits/helpdesk/issues/4
 
 # v1.1.1
 
