@@ -14,10 +14,13 @@ $data = data_submitted();
 
 if ($mode == 'user') {
     $header = get_string('search_users', 'block_helpdesk');
-    $criterion = array('username' => get_string('username'),
-                       'firstname' => get_string('firstname'),
-                       'lastname' => get_string('lastname'));
-    $fields = 'id, firstname, lastname';
+    $criterion = array(
+        'username' => get_string('username'),
+        'idnumber' => get_string('idnumber'),
+        'firstname' => get_string('firstname'),
+        'lastname' => get_string('lastname')
+    );
+    $fields = 'id, firstname, lastname, idnumber';
 
     $sql = $data ? hdesk_get_results_sql($data, $criterion) : null;
     $results = $sql ? $DB->get_records_select($mode, $sql, null, '', $fields) : array();

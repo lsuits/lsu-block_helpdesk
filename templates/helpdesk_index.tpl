@@ -23,6 +23,9 @@
         <table id="participants" class="flexible generaltable generalbox">
              <tr>
                 <th class="header c1" scope="col">{"fullname:moodle"|s}</th>
+                {if $mode == 'user'}
+                <th class="header" scope="col">{"idnumber:moodle"|s}</th>
+                {/if}
                 <th class="header c2" scope="col">{"action:moodle"|s}</th>
              </tr>
              {foreach $results as $id => $result}
@@ -34,6 +37,9 @@
                                     {fullname obj=$result}
                         </a>
                       </td>
+                      {if $mode == 'user'}
+                      <td class="cell">{$result->idnumber}</td>
+                      {/if}
                       <td class="cell c2">
                         {helplinks obj=$result}
                       </td>
