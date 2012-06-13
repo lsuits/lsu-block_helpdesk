@@ -5,7 +5,7 @@ class block_helpdesk extends block_list {
         $this->title = get_string('pluginname', 'block_helpdesk');
     }
 
-    function applciable_formats() {
+    function applicable_formats() {
         return array('site' => true, 'my' => true, 'course' => false);
     }
 
