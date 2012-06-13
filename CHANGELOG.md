@@ -2,7 +2,7 @@
 
 - Use Moodle Course search [#3][3]
 - User search includes idnumber [#4][4]
-- Prevent Course additions [#5][5] ([jcockrell][jcockrell]
+- Prevent Course additions [#5][5] ([jcockrell][jcockrell])
 
 [3]: https://github.com/lsuits/helpdesk/issues/3
 [4]: https://github.com/lsuits/helpdesk/issues/4
