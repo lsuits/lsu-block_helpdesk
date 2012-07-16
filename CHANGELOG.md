@@ -1,5 +1,6 @@
 # v1.1.2
 
+- Remove smarty depenedency [diff](https://github.com/lsuits/helpdesk/compare/e2d8fa5903...467e5df453)
 - Use Moodle Course search [#3][3]
 - User search includes idnumber [#4][4]
 - Prevent Course additions [#5][5] ([jcockrell][jcockrell])
