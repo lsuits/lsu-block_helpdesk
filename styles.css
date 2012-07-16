@@ -6,12 +6,17 @@
    margin-top: 10px;
 }
 
-#page-blocks-helpdesk-index div.region-content div.box, #page-blocks-helpdesk div.region-content div.box, #page-blocks-helpdesk-index div.region-content div.helpdesk_searchform, #page-blocks-helpdesk div.region-content div.helpdesk_searchform {
+#page-blocks-helpdesk-index div.region-content div.box,
+#page-blocks-helpdesk-participants div.region-content div.box,
+#page-blocks-helpdesk div.region-content div.box,
+#page-blocks-helpdesk-index div.region-content div.helpdesk_searchform,
+#page-blocks-helpdesk div.region-content div.helpdesk_searchform {
    width: 80%;
    margin: 0 auto 30px auto;
 }
 
-#page-blocks-helpdesk-index div.region-content div.box table, #page-blocks-helpdesk div.region-content div.box table {
+#page-blocks-helpdesk-index div.region-content div.box table, #page-blocks-helpdesk div.region-content div.box table,
+#page-blocks-helpdesk-participants div.region-content div.box table, #page-blocks-helpdesk div.region-content div.box table {
    width: 100%;
 }
 

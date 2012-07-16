@@ -3,7 +3,6 @@
 require_once('../../config.php');
 require_once($CFG->libdir . '/grouplib.php');
 require_once('lib.php');
-require_once($CFG->libdir . '/quick_template/lib.php');
 
 /**
  * Author: Philip Cali
@@ -28,6 +27,7 @@ $blockname = get_string('pluginname', 'block_helpdesk');
 $search = get_string('search_courses', 'block_helpdesk');
 
 $PAGE->set_context($sitecontext);
+$PAGE->navbar->add($blockname);
 $PAGE->navbar->add($search);
 $PAGE->set_title($blockname . ': '. $search);
 $PAGE->set_heading($blockname);
@@ -45,54 +45,64 @@ if ($group > 0) {
 
 echo $OUTPUT->heading($heading);
 
-// Force visibility of all groups please.
-$course->groupmode=2;
+$course->groupmode = 2;
 groups_print_course_menu($course, "participants.php?id=$id&amp;roleid=$roleid");
 
-// Gett all the roles
-$rolenamesurl = new moodle_url('/blocks/helpdesk/participants.php', array('id' => $id));
+$rolenamesurl = new moodle_url('/blocks/helpdesk/participants.php', array(
+    'id' => $id, 'group' => $group
+));
 $roles = get_roles_used_in_context($context, true);
 $rolenames = array(0 => get_string('allparticipants'));
 foreach($roles as $role) {
     $rolenames[$role->id] = strip_tags(role_get_name($role, $context));
 }
 
-//By passing in a role of '0', we get every role
-$users = get_role_users($roleid, $context, false, '', 'u.lastname, u.firstname',
-                        null, $group);
+$users = get_role_users(
+    $roleid, $context, false, '',
+    'u.lastname, u.firstname', null, $group
+);
 
 if ($roleid > 0) {
     $a = new stdClass;
     $a->role = $rolenames[$roleid];
     $header = format_string(get_string('xuserswiththerole', 'role', $a));
-
-    if ($group) {
-        $a->group = $heading;
-        $header .= ' ' . format_string(get_string('ingroup', 'role', $a));
-    }
 } else {
     $header = get_string('allparticipants');
 }
+
+if ($group) {
+    $a->group = $DB->get_field('groups', 'name', array('id' => $group));
+    $header .= ' ' . format_string(get_string('ingroup', 'role', $a));
+}
+
 $header .= ': '. count($users);
 
-$template_data = array (
-    'select' => $OUTPUT->single_select($rolenamesurl, 'roleid', $rolenames, $roleid, null, 'rolesform'),
-    'users' => $users,
-    'heading' => $OUTPUT->heading($header, 3),
-    'wwwroot' => $CFG->wwwroot,
+$select = new single_select($rolenamesurl, 'roleid', $rolenames, $roleid, null);
+$select->set_label(get_string('currentrole', 'role'));
+echo $OUTPUT->render($select);
+
+$table = new html_table();
+$table->head = array(
+    get_string('userpic'), get_string('fullname'),
+    get_string('idnumber'), get_string('lastaccess')
 );
 
-$template_registers = array(
-    "function" => array(
-        'picture' => function($params, &$smarty) use($OUTPUT, $id) {
-            $params['user']->imagealt = '';
-            return $OUTPUT->user_picture($params['user'],
-                    array('courseid' => $id, 'alttext' => false));
-        }
-    )
-);
+$neverstr = get_string('never');
 
-quick_template::render('helpdesk_participants.tpl', $template_data, 'block_helpdesk', $template_registers);
+foreach ($users as $user) {
+    $user->imagealt = '';
+    $url = new moodle_url('/user/view.php', array('id' => $user->id));
+    $line = array(
+        $OUTPUT->user_picture($user, array('courseid' => $id, 'alttext' => false)),
+        html_writer::link($url, fullname($user)),
+        $user->idnumber,
+        empty($user->lastaccess) ? $neverstr : userdate($user->lastaccess)
+    );
+
+    $table->data[] = new html_table_row($line);
+}
+
+echo $OUTPUT->heading($header, 3);
+echo html_writer::tag('div', html_writer::table($table), array('class' => 'box'));
 
 echo $OUTPUT->footer();
-
