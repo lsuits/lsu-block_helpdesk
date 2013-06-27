@@ -12,12 +12,14 @@ class helpdesk_searchform extends moodleform {
                 $m->createElement('select', "{$k}_equality", '', $options),
                 $m->createElement('text', "{$k}_terms", '', array('size' => 60))
             );
+            $m->setType("{$k}_terms",PARAM_TEXT);
 
             $m->addGroup($elements, $k, $c, array(' '), false);
             $m->setDefault("{$k}_equality", 'contains');
         }
 
         $m->addElement('hidden', 'mode', $this->_customdata['mode']);
+        $m->setType('mode',PARAM_ALPHA);
 
         $buttons = array(
             $m->createElement('submit', 'submit', get_string('submit')),
