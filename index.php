@@ -18,7 +18,7 @@ if ($mode == 'user') {
         'firstname' => get_string('firstname'),
         'lastname' => get_string('lastname')
     );
-    $fields = 'id, firstname, lastname, idnumber';
+    $fields = user_picture::fields().', idnumber';
 
     $results = function($data, &$count) use ($criterion, $mode, $fields, $DB) {
         $sql = $data ? hdesk_get_results_sql($data, $criterion) : null;
@@ -39,7 +39,7 @@ if ($mode == 'user') {
     $follow_link = 'participants.php';
 }
 
-$context = get_context_instance(CONTEXT_SYSTEM);
+$context = context_system::instance();
 $PAGE->set_context($context);
 
 $PAGE->navbar->add($blockname);

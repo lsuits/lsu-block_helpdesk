@@ -16,7 +16,7 @@ class block_helpdesk extends block_list {
             return $this->content;
         }
 
-        $context = get_context_instance(CONTEXT_SYSTEM);
+        $context = context_system::instance();
         if(!has_capability('block/helpdesk:viewenrollments', $context)) {
             return $this->content;
         }
