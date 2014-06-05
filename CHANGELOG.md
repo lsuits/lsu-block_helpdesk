@@ -1,3 +1,9 @@
+# v1.1.3
+
+- update deprecated fn calls
+- inject altname fields into sql
+- Moodle 2.7 compatibility
+
 # v1.1.2
 
 - Remove smarty depenedency [diff](https://github.com/lsuits/helpdesk/compare/e2d8fa5903...467e5df453)
