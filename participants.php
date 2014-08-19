@@ -35,12 +35,12 @@ $id = required_param('id', PARAM_INT);
 $group = optional_param('group', 0, PARAM_INT);
 $roleid = optional_param('roleid', 0, PARAM_INT);
 
-$sitecontext = get_context_instance(CONTEXT_SYSTEM);
+$sitecontext = context_system::instance();
 
 require_capability('block/helpdesk:viewenrollments', $sitecontext);
 
-$context = get_context_instance(CONTEXT_COURSE, $id);
-$frontpagectx = get_context_instance(CONTEXT_COURSE, SITEID);
+$context = context_course::instance($id);
+$frontpagectx = context_course::instance(SITEID);
 
 $course = $DB->get_record('course', array('id' => $id));
 
