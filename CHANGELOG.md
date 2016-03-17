@@ -1,3 +1,8 @@
+# v3.0.0
+
+- Removed firing `helpdesk_course` and `helpdesk_user` in favor of internal process
+- Moodle 3.1 compatibility
+
 # v1.1.3
 
 - update deprecated fn calls

@@ -1,26 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
-/**
- *
- * @package    block_helpdesk
- * @copyright  2014 Louisiana State University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 require_once('../../config.php');
 require_once('lib.php');
 require_once('searchform.php');
@@ -95,16 +74,42 @@ if ($form->is_cancelled()) {
         }
         $table->head[] = get_string('action');
 
+        $uesReprocessInstalled = isPluginVersionIsInstalled('block_ues_reprocess', 2016022912));
+
         foreach ($results($data, $count) as $obj) {
+            
             $fn = !empty($obj->fullname) ? $obj->fullname : fullname($obj);
 
-            $help = new stdClass;
-            $help->{$mode . 'id'} = $obj->id;
-            $help->links = array();
-            $help->context = $context;
-            $help->$mode = $obj;
+            $outputLinks = array();
 
-            events_trigger('helpdesk_' . $mode, $help);
+            // do "stuff" depending on the 'mode' that is currently being displayed (ex: course, user)
+            switch ($mode) {
+                case 'course':
+                    
+                    if ($uesReprocessInstalled) {
+
+                        // if this user has the ability to reprocess this course, add a link to the output
+                        if (has_capability('block/ues_reprocess:canreprocess', $context)) {
+
+                            $linkText = get_string('pluginname', 'block_ues_reprocess');
+
+                            $whereThisCourse = array('id' => $obj->id, 'type' => 'course');
+
+                            $url = new moodle_url('/blocks/ues_reprocess/reprocess.php', $whereThisCourse);
+
+                            $outputLinks[] = html_writer::link($url, $linkText);
+                        }
+                    }
+
+                    break;
+                
+                case 'user':
+                    // do nothing for users...
+                    break;
+
+                default:
+                    break;
+            }
 
             $url = new moodle_url($follow_link, array('id' => $obj->id));
 
@@ -115,7 +120,7 @@ if ($form->is_cancelled()) {
             if ($mode == 'user') {
                 $line[] = $obj->idnumber;
             }
-            $line[] = implode(' | ', $help->links);
+            $line[] = implode(' | ', $outputLinks);
 
             $table->data[] = new html_table_row($line);
         }
@@ -138,3 +143,30 @@ if ($data) {
 }
 
 echo $OUTPUT->footer();
+
+/**
+ * Checks to see that a specified version of a specified plugin is installed
+ *
+ * If a specified version is not installed, there will be no minimum version check.
+ * 
+ * @param  string  $pluginName       the moodle plugin name
+ * @param  int     $requiredVersion  moodle version number (ex: 2016022912)
+ * @return boolean
+ */
+function isPluginVersionIsInstalled($pluginName = '', $requiredVersion = false) {
+    
+    if ( ! $pluginName)
+        return false;
+
+    $pluginInfo = core_plugin_manager::instance()->get_plugin_info($pluginName);
+
+    if ( is_null($pluginInfo) && ! is_object($pluginInfo))
+        return false;
+
+    if ( ! $requiredVersion)
+        return true;
+
+    $requiredVersionInstalled = ($pluginInfo->versiondisk >= $requiredVersion) ? true : false;
+
+    return $requiredVersionInstalled;
+}
