@@ -74,7 +74,7 @@ if ($form->is_cancelled()) {
         }
         $table->head[] = get_string('action');
 
-        $uesReprocessInstalled = isPluginVersionIsInstalled('block_ues_reprocess', 2016022912));
+        $uesReprocessInstalled = isPluginVersionInstalled('block_ues_reprocess', 2016022912));
 
         foreach ($results($data, $count) as $obj) {
             
@@ -153,7 +153,7 @@ echo $OUTPUT->footer();
  * @param  int     $requiredVersion  moodle version number (ex: 2016022912)
  * @return boolean
  */
-function isPluginVersionIsInstalled($pluginName = '', $requiredVersion = false) {
+function isPluginVersionInstalled($pluginName = '', $requiredVersion = false) {
     
     if ( ! $pluginName)
         return false;
