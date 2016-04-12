@@ -17,19 +17,17 @@
 
 /**
  * @package   block_helpdesk
- * @copyright 2014, Louisiana State University
+ * @copyright 2016, Louisiana State University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
-
-$plugin->version = 2014060500;
-$plugin->requires = 2013051400;
 $plugin->component = 'block_helpdesk';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.1.3';
+$plugin->version = 2016040800;
+$plugin->requires = 2015111600;
+$plugin->release = 'v3.0.0';
 
 $plugin->dependencies = array(
-    'enrol_ues' => 2013081007,
+    'enrol_ues' => 2016040800,
 );
