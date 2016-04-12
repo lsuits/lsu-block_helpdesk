@@ -104,7 +104,7 @@ if ($form->is_cancelled()) {
             $help->context = $context;
             $help->$mode = $obj;
 
-            events_trigger('helpdesk_' . $mode, $help);
+            events_trigger_legacy('helpdesk_' . $mode, $help);
 
             $url = new moodle_url($follow_link, array('id' => $obj->id));
 
