@@ -27,7 +27,3 @@ $plugin->component = 'block_helpdesk';
 $plugin->version = 2016040800;
 $plugin->requires = 2015111600;
 $plugin->release = 'v3.0.0';
-
-$plugin->dependencies = array(
-    'enrol_ues' => 2016040800,
-);
